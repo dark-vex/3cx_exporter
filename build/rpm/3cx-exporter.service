@@ -1,0 +1,8 @@
+[Unit]
+Description=3CX Prometheus Exporter
+After=network.target
+
+[Service]
+Type=simple
+Restart=always
+ExecStart=/usr/bin/3cx_exporter -config /etc/3cx_exporter/config.json

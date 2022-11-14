@@ -1,0 +1,5 @@
+{
+  "Hostname": "YOUR-PBX-FQDN:PORT",
+  "Username": "ADMIN-USERNAME",
+  "Password": "ADMIN-PASSWORD"
+}
