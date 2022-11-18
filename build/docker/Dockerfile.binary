@@ -1,0 +1,10 @@
+FROM golang:1.19.3 AS builder
+
+LABEL build=3cx-exporter
+
+COPY . /3cx-exporter
+WORKDIR /3cx-exporter
+
+RUN CGO_ENABLED=0 GOOS=linux GOARCH=amd64 go build \
+        -ldflags="-w -s" \
+        -o bin/3cx-exporter

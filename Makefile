@@ -12,10 +12,8 @@ LICENSE := MIT
 
 default: test
 
-./bin/3cx-exporter:
-	CGO_ENABLED=0 GOOS=linux GOARCH=amd64 $(GO) build -ldflags "-w -s" -o bin/3cx-exporter
-
-build: ./bin/3cx-exporter
+build: build-images
+	$(DOCKER) run --rm -v ${PWD}/output:/3cx-exporter/bin/ --name $(PROJECT)-binary $(IMAGE_REPO)/$(PROJECT)-bin:$(IMAGE_TAG)
 
 test:
 	@echo "RUNNING: Unit tests" \
@@ -30,7 +28,8 @@ test:
 			echo "Skipped"; \
 		fi
 
-build-images: build
+build-images:
+	$(DOCKER) build -t $(IMAGE_REPO)/$(PROJECT)-bin:$(IMAGE_TAG) -f build/docker/Dockerfile.binary .
 	$(DOCKER) build -t $(IMAGE_REPO)/$(PROJECT):$(IMAGE_TAG) -f build/docker/Dockerfile .
 	$(DOCKER) build -t $(IMAGE_REPO)/$(PROJECT)-rpm:$(IMAGE_TAG) -f build/docker/Dockerfile.rpm .
 	$(DOCKER) build -t $(IMAGE_REPO)/$(PROJECT)-deb:$(IMAGE_TAG) -f build/docker/Dockerfile.deb .
@@ -45,10 +44,10 @@ delete-images:
 	$(DOCKER) rmi $(IMAGE_REPO)/$(PROJECT)-rpm:$(IMAGE_TAG)
 	$(DOCKER) rmi $(IMAGE_REPO)/$(PROJECT)-deb:$(IMAGE_TAG)
 
-build-rpm:
+build-rpm: build-images
 	$(DOCKER) run --rm -v ${PWD}/output:/home/builder/rpm/x86_64 --name $(PROJECT)-rpm $(IMAGE_REPO)/$(PROJECT)-rpm:$(IMAGE_TAG)
 
-build-deb:
+build-deb: build-images
 	$(DOCKER) run --rm -v ${PWD}/output:/home/builder/deb/x86_64 --name $(PROJECT)-deb $(IMAGE_REPO)/$(PROJECT)-deb:$(IMAGE_TAG)
 
 .PHONY: default build test build-images build-rpm build-deb push-images
