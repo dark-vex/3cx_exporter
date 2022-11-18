@@ -11,7 +11,9 @@ RUN CGO_ENABLED=0 GOOS=linux GOARCH=amd64 go build \
 
 FROM rpmbuild/centos7
 
-COPY --from=builder /3cx-exporter/bin/3cx-exporter /home/builder
+COPY --from=builder /3cx-exporter/LICENSE /home/builder/rpm
+
+COPY --from=builder /3cx-exporter/README.md /home/builder/rpm
 
 COPY --from=builder /3cx-exporter/build/rpm /home/builder/rpm
 

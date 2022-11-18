@@ -14,7 +14,7 @@
 
 Name:           3cx-exporter
 Version:        0.1.0
-Release:        1%{?dist}
+Release:        1
 Summary:        3CX Prometheus metrics exporter
 License:        MIT License
 URL:            https://github.com/dark-vex/3cx_exporter
@@ -53,8 +53,8 @@ install -D -m 0644 config.json %{buildroot}%{_sysconfdir}/3cx_exporter/config.js
 %systemd_postun_with_restart %{name}.service
 
 %files
-#\%license LICENSE.md
-#\%doc README.md
+%license LICENSE.md
+%doc README.md
 %{_bindir}/%{name}
 %{_unitdir}/%{name}.service
 %{_sysconfdir}/3cx_exporter/config.json
