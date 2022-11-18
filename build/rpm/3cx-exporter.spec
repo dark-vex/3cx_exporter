@@ -53,7 +53,7 @@ install -D -m 0644 config.json %{buildroot}%{_sysconfdir}/3cx_exporter/config.js
 %systemd_postun_with_restart %{name}.service
 
 %files
-%license LICENSE.md
+%license LICENSE
 %doc README.md
 %{_bindir}/%{name}
 %{_unitdir}/%{name}.service
