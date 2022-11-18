@@ -1,6 +1,3 @@
-# mock configuration:
-# - Requires network for running yarn/dotnet build
-
 %global debug_package %{nil}
 %define _build_id_links none
 
@@ -19,34 +16,23 @@ Name:           3cx-exporter
 Version:        0.1.0
 Release:        1%{?dist}
 Summary:        3CX Prometheus metrics exporter
-License:        GPLv3
-URL:            https://
+License:        MIT License
+URL:            https://github.com/dark-vex/3cx_exporter
 
 BuildArch:      x86_64 aarch64
 
-#Source0:        https://github.com/%{name}/Lidarr/archive/refs/tags/v%{version}.tar.gz#/%{name}-%{version}.tar.gz
 Source0:        %{name}
 Source10:       %{name}.service
-#Source11:       %{name}.json
+Source11:       %{name}.json
 
-#BuildRequires:  golang
 BuildRequires:  systemd
-
-#Requires:       firewalld-filesystem
-#Requires(post): firewalld-filesystem
-#Requires:       libmediainfo
-#Requires:       sqlite
-#Requires(pre):  shadow-utils
 
 %if 0%{?rhel} >= 8 || 0%{?fedora}
 Requires:       (%{name}-selinux if selinux-policy)
 %endif
 
 %description
-Lidarr is a Music recored for Usenet and BitTorrent users. It can monitor
-multiple RSS feeds for new music and will grab, sort and rename it. It can also
-be configured to automatically upgrade the quality of files already downloaded
-when a better quality format becomes available.
+Prometheus exporter for 3CX PBX
 
 %install
 mkdir -p %{buildroot}/%{_bindir}
